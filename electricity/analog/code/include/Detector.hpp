@@ -36,7 +36,7 @@ class Detector {
         vSender.setSensorId(WiFi.macAddress().c_str());
     }
 
-    virtual ~Detector() { this->deinialize(); }
+    virtual ~Detector() { this->deinitialize(); }
 
     void setAfterPushCall(bool afterPushCall) {
         this->vAfterPushCall = afterPushCall;
@@ -182,7 +182,7 @@ class Detector {
         this->vUseWithWebServer = value;
     }
 
-    void deinialize() {
+    void deinitialize() {
         if (out_buf) {
             free(out_buf);
             out_buf = nullptr;
