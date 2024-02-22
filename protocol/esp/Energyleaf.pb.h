@@ -31,6 +31,8 @@ typedef struct _TokenResponse {
     char status_message[255];
     bool has_script;
     char script[255];
+    bool has_analog_rotation_per_kwh;
+    uint32_t analog_rotation_per_kwh;
 } TokenResponse;
 
 typedef struct _SensorDataRequest {
@@ -64,11 +66,11 @@ extern "C" {
 
 /* Initializer values for message structs */
 #define TokenRequest_init_default                {"", _SensorType_MIN}
-#define TokenResponse_init_default               {"", 0, 0, false, "", false, ""}
+#define TokenResponse_init_default               {"", 0, 0, false, "", false, "", false, 0}
 #define SensorDataRequest_init_default           {"", _SensorType_MIN, 0}
 #define SensorDataResponse_init_default          {0, false, ""}
 #define TokenRequest_init_zero                   {"", _SensorType_MIN}
-#define TokenResponse_init_zero                  {"", 0, 0, false, "", false, ""}
+#define TokenResponse_init_zero                  {"", 0, 0, false, "", false, "", false, 0}
 #define SensorDataRequest_init_zero              {"", _SensorType_MIN, 0}
 #define SensorDataResponse_init_zero             {0, false, ""}
 
@@ -80,6 +82,7 @@ extern "C" {
 #define TokenResponse_status_tag                 3
 #define TokenResponse_status_message_tag         4
 #define TokenResponse_script_tag                 5
+#define TokenResponse_analog_rotation_per_kwh_tag 6
 #define SensorDataRequest_access_token_tag       1
 #define SensorDataRequest_type_tag               2
 #define SensorDataRequest_value_tag              3
@@ -98,7 +101,8 @@ X(a, STATIC,   SINGULAR, STRING,   access_token,      1) \
 X(a, STATIC,   SINGULAR, UINT32,   expires_in,        2) \
 X(a, STATIC,   SINGULAR, UINT32,   status,            3) \
 X(a, STATIC,   OPTIONAL, STRING,   status_message,    4) \
-X(a, STATIC,   OPTIONAL, STRING,   script,            5)
+X(a, STATIC,   OPTIONAL, STRING,   script,            5) \
+X(a, STATIC,   OPTIONAL, UINT32,   analog_rotation_per_kwh,   6)
 #define TokenResponse_CALLBACK NULL
 #define TokenResponse_DEFAULT NULL
 
@@ -131,7 +135,7 @@ extern const pb_msgdesc_t SensorDataResponse_msg;
 #define SensorDataRequest_size                   53
 #define SensorDataResponse_size                  263
 #define TokenRequest_size                        132
-#define TokenResponse_size                       572
+#define TokenResponse_size                       578
 
 #ifdef __cplusplus
 } /* extern "C" */
