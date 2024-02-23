@@ -24,8 +24,10 @@ typedef struct _TokenRequest {
 } TokenRequest;
 
 typedef struct _TokenResponse {
+    bool has_access_token;
     char access_token[45];
-    uint32_t expires_in;
+    bool has_expires_in;
+    uint32_t expires_in; /* in seconds (look documentation for correct value) */
     uint32_t status; /* In range of 200-299 correct, else bad */
     bool has_status_message;
     char status_message[255];
@@ -66,11 +68,11 @@ extern "C" {
 
 /* Initializer values for message structs */
 #define TokenRequest_init_default                {"", _SensorType_MIN}
-#define TokenResponse_init_default               {"", 0, 0, false, "", false, "", false, 0}
+#define TokenResponse_init_default               {false, "", false, 0, 0, false, "", false, "", false, 0}
 #define SensorDataRequest_init_default           {"", _SensorType_MIN, 0}
 #define SensorDataResponse_init_default          {0, false, ""}
 #define TokenRequest_init_zero                   {"", _SensorType_MIN}
-#define TokenResponse_init_zero                  {"", 0, 0, false, "", false, "", false, 0}
+#define TokenResponse_init_zero                  {false, "", false, 0, 0, false, "", false, "", false, 0}
 #define SensorDataRequest_init_zero              {"", _SensorType_MIN, 0}
 #define SensorDataResponse_init_zero             {0, false, ""}
 
@@ -97,8 +99,8 @@ X(a, STATIC,   SINGULAR, UENUM,    type,              2)
 #define TokenRequest_DEFAULT NULL
 
 #define TokenResponse_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   access_token,      1) \
-X(a, STATIC,   SINGULAR, UINT32,   expires_in,        2) \
+X(a, STATIC,   OPTIONAL, STRING,   access_token,      1) \
+X(a, STATIC,   OPTIONAL, UINT32,   expires_in,        2) \
 X(a, STATIC,   SINGULAR, UINT32,   status,            3) \
 X(a, STATIC,   OPTIONAL, STRING,   status_message,    4) \
 X(a, STATIC,   OPTIONAL, STRING,   script,            5) \
