@@ -13,8 +13,8 @@ message TokenRequest {
 }
 
 message TokenResponse {
-    string access_token = 1;
-    uint32 expires_in = 2; //in seconds (look documentation for correct value)
+    optional string access_token = 1;
+    optional uint32 expires_in = 2; //in seconds (look documentation for correct value)
     uint32 status = 3; //In range of 200-299 correct, else bad
 	optional string status_message = 4;
 	optional string script = 5;
