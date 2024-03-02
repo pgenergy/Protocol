@@ -8,14 +8,15 @@ enum SensorType {
 }
 
 message TokenRequest {
-    string client_id = 1;
+    	string client_id = 1;
 	SensorType type = 2;
+	optional bool need_script = 3;
 }
 
 message TokenResponse {
-    optional string access_token = 1;
-    optional uint32 expires_in = 2; //in seconds (look documentation for correct value)
-    uint32 status = 3; //In range of 200-299 correct, else bad
+    	optional string access_token = 1;
+    	optional uint32 expires_in = 2; //in seconds (look documentation for correct value)
+    	uint32 status = 3; //In range of 200-299 correct, else bad
 	optional string status_message = 4;
 	optional string script = 5;
 	optional uint32 analog_rotation_per_kwh = 6;
@@ -28,6 +29,15 @@ message SensorDataRequest {
 }
 
 message SensorDataResponse {
-    uint32 status = 1; //In range of 200-299 correct, else bad
+    	uint32 status = 1; //In range of 200-299 correct, else bad
 	optional string status_message = 2;
+}
+
+message ScriptAcceptedRequest {
+    	string access_token = 1;
+}
+
+message ScriptAcceptedResponse {
+    	uint32 status = 1;
+    	optional string status_message = 2;
 }

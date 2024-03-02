@@ -4,3 +4,4 @@ TokenResponse.status_message max_size:255
 TokenResponse.script max_size:255
 SensorDataRequest.access_token max_size:45
 SensorDataResponse.status_message max_size:255
+ScriptAcceptedResponse.status_message max_size:255
