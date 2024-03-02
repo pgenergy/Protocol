@@ -21,6 +21,8 @@ typedef enum _SensorType {
 typedef struct _TokenRequest {
     char client_id[128];
     SensorType type;
+    bool has_need_script;
+    bool need_script;
 } TokenRequest;
 
 typedef struct _TokenResponse {
@@ -49,6 +51,16 @@ typedef struct _SensorDataResponse {
     char status_message[255];
 } SensorDataResponse;
 
+typedef struct _ScriptAcceptedRequest {
+    pb_callback_t access_token;
+} ScriptAcceptedRequest;
+
+typedef struct _ScriptAcceptedResponse {
+    uint32_t status;
+    bool has_status_message;
+    char status_message[255];
+} ScriptAcceptedResponse;
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -66,19 +78,26 @@ extern "C" {
 
 
 
+
+
 /* Initializer values for message structs */
-#define TokenRequest_init_default                {"", _SensorType_MIN}
+#define TokenRequest_init_default                {"", _SensorType_MIN, false, 0}
 #define TokenResponse_init_default               {false, "", false, 0, 0, false, "", false, "", false, 0}
 #define SensorDataRequest_init_default           {"", _SensorType_MIN, 0}
 #define SensorDataResponse_init_default          {0, false, ""}
-#define TokenRequest_init_zero                   {"", _SensorType_MIN}
+#define ScriptAcceptedRequest_init_default       {{{NULL}, NULL}}
+#define ScriptAcceptedResponse_init_default      {0, false, ""}
+#define TokenRequest_init_zero                   {"", _SensorType_MIN, false, 0}
 #define TokenResponse_init_zero                  {false, "", false, 0, 0, false, "", false, "", false, 0}
 #define SensorDataRequest_init_zero              {"", _SensorType_MIN, 0}
 #define SensorDataResponse_init_zero             {0, false, ""}
+#define ScriptAcceptedRequest_init_zero          {{{NULL}, NULL}}
+#define ScriptAcceptedResponse_init_zero         {0, false, ""}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define TokenRequest_client_id_tag               1
 #define TokenRequest_type_tag                    2
+#define TokenRequest_need_script_tag             3
 #define TokenResponse_access_token_tag           1
 #define TokenResponse_expires_in_tag             2
 #define TokenResponse_status_tag                 3
@@ -90,11 +109,15 @@ extern "C" {
 #define SensorDataRequest_value_tag              3
 #define SensorDataResponse_status_tag            1
 #define SensorDataResponse_status_message_tag    2
+#define ScriptAcceptedRequest_access_token_tag   1
+#define ScriptAcceptedResponse_status_tag        1
+#define ScriptAcceptedResponse_status_message_tag 2
 
 /* Struct field encoding specification for nanopb */
 #define TokenRequest_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, STRING,   client_id,         1) \
-X(a, STATIC,   SINGULAR, UENUM,    type,              2)
+X(a, STATIC,   SINGULAR, UENUM,    type,              2) \
+X(a, STATIC,   OPTIONAL, BOOL,     need_script,       3)
 #define TokenRequest_CALLBACK NULL
 #define TokenRequest_DEFAULT NULL
 
@@ -121,22 +144,39 @@ X(a, STATIC,   OPTIONAL, STRING,   status_message,    2)
 #define SensorDataResponse_CALLBACK NULL
 #define SensorDataResponse_DEFAULT NULL
 
+#define ScriptAcceptedRequest_FIELDLIST(X, a) \
+X(a, CALLBACK, SINGULAR, STRING,   access_token,      1)
+#define ScriptAcceptedRequest_CALLBACK pb_default_field_callback
+#define ScriptAcceptedRequest_DEFAULT NULL
+
+#define ScriptAcceptedResponse_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT32,   status,            1) \
+X(a, STATIC,   OPTIONAL, STRING,   status_message,    2)
+#define ScriptAcceptedResponse_CALLBACK NULL
+#define ScriptAcceptedResponse_DEFAULT NULL
+
 extern const pb_msgdesc_t TokenRequest_msg;
 extern const pb_msgdesc_t TokenResponse_msg;
 extern const pb_msgdesc_t SensorDataRequest_msg;
 extern const pb_msgdesc_t SensorDataResponse_msg;
+extern const pb_msgdesc_t ScriptAcceptedRequest_msg;
+extern const pb_msgdesc_t ScriptAcceptedResponse_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define TokenRequest_fields &TokenRequest_msg
 #define TokenResponse_fields &TokenResponse_msg
 #define SensorDataRequest_fields &SensorDataRequest_msg
 #define SensorDataResponse_fields &SensorDataResponse_msg
+#define ScriptAcceptedRequest_fields &ScriptAcceptedRequest_msg
+#define ScriptAcceptedResponse_fields &ScriptAcceptedResponse_msg
 
 /* Maximum encoded size of messages (where known) */
+/* ScriptAcceptedRequest_size depends on runtime parameters */
 #define ENERGYLEAF_PB_H_MAX_SIZE                 TokenResponse_size
+#define ScriptAcceptedResponse_size              263
 #define SensorDataRequest_size                   53
 #define SensorDataResponse_size                  263
-#define TokenRequest_size                        132
+#define TokenRequest_size                        134
 #define TokenResponse_size                       578
 
 #ifdef __cplusplus

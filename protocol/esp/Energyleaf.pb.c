@@ -18,5 +18,11 @@ PB_BIND(SensorDataRequest, SensorDataRequest, AUTO)
 PB_BIND(SensorDataResponse, SensorDataResponse, 2)
 
 
+PB_BIND(ScriptAcceptedRequest, ScriptAcceptedRequest, AUTO)
+
+
+PB_BIND(ScriptAcceptedResponse, ScriptAcceptedResponse, 2)
+
+
 
 
