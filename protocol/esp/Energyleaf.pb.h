@@ -52,7 +52,7 @@ typedef struct _SensorDataResponse {
 } SensorDataResponse;
 
 typedef struct _ScriptAcceptedRequest {
-    pb_callback_t access_token;
+    char access_token[45];
 } ScriptAcceptedRequest;
 
 typedef struct _ScriptAcceptedResponse {
@@ -85,13 +85,13 @@ extern "C" {
 #define TokenResponse_init_default               {false, "", false, 0, 0, false, "", false, "", false, 0}
 #define SensorDataRequest_init_default           {"", _SensorType_MIN, 0}
 #define SensorDataResponse_init_default          {0, false, ""}
-#define ScriptAcceptedRequest_init_default       {{{NULL}, NULL}}
+#define ScriptAcceptedRequest_init_default       {""}
 #define ScriptAcceptedResponse_init_default      {0, false, ""}
 #define TokenRequest_init_zero                   {"", _SensorType_MIN, false, 0}
 #define TokenResponse_init_zero                  {false, "", false, 0, 0, false, "", false, "", false, 0}
 #define SensorDataRequest_init_zero              {"", _SensorType_MIN, 0}
 #define SensorDataResponse_init_zero             {0, false, ""}
-#define ScriptAcceptedRequest_init_zero          {{{NULL}, NULL}}
+#define ScriptAcceptedRequest_init_zero          {""}
 #define ScriptAcceptedResponse_init_zero         {0, false, ""}
 
 /* Field tags (for use in manual encoding/decoding) */
@@ -145,8 +145,8 @@ X(a, STATIC,   OPTIONAL, STRING,   status_message,    2)
 #define SensorDataResponse_DEFAULT NULL
 
 #define ScriptAcceptedRequest_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   access_token,      1)
-#define ScriptAcceptedRequest_CALLBACK pb_default_field_callback
+X(a, STATIC,   SINGULAR, STRING,   access_token,      1)
+#define ScriptAcceptedRequest_CALLBACK NULL
 #define ScriptAcceptedRequest_DEFAULT NULL
 
 #define ScriptAcceptedResponse_FIELDLIST(X, a) \
@@ -171,8 +171,8 @@ extern const pb_msgdesc_t ScriptAcceptedResponse_msg;
 #define ScriptAcceptedResponse_fields &ScriptAcceptedResponse_msg
 
 /* Maximum encoded size of messages (where known) */
-/* ScriptAcceptedRequest_size depends on runtime parameters */
 #define ENERGYLEAF_PB_H_MAX_SIZE                 TokenResponse_size
+#define ScriptAcceptedRequest_size               46
 #define ScriptAcceptedResponse_size              263
 #define SensorDataRequest_size                   53
 #define SensorDataResponse_size                  263
