@@ -1,6 +1,0 @@
-[submodule "electricity/digital/base"]
-	path = electricity/digital/base
-	url = https://github.com/arendst/Tasmota/
-[submodule "water/analog/base"]
-	path = water/analog/base
-	url = https://github.com/jomjol/AI-on-the-edge-device

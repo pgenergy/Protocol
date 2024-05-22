@@ -1,10 +1,6 @@
-# Sensors
+# Protocol
 
-This repository contains the data / code for the at the moment direct from us tested and useable sensors.  
-Also needed code for creating own sensors and to push the data in the right protocol to the service is included.  
+This repository contains the currently used protocol for the transfer of data.
+It is using Protobuf.
 
-The structure is the following:
-For our direct useable sensors:  
-<code>data source (gas, electricity, water) -> access (analog, digital)</code>  
-or for the used protocol:  
-<code>protocol -> proto</code>
+The directory proto contains the protobuf stuff, while build/esp contains a builded version of that for the esp (using nanopb).
