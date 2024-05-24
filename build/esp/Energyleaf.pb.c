@@ -6,23 +6,31 @@
 #error Regenerate this file with the current version of nanopb generator.
 #endif
 
-PB_BIND(TokenRequest, TokenRequest, AUTO)
+PB_BIND(energyleaf_TokenRequest, energyleaf_TokenRequest, AUTO)
 
 
-PB_BIND(TokenResponse, TokenResponse, 2)
+PB_BIND(energyleaf_TokenResponse, energyleaf_TokenResponse, 2)
 
 
-PB_BIND(SensorDataRequest, SensorDataRequest, AUTO)
+PB_BIND(energyleaf_SensorDataRequest, energyleaf_SensorDataRequest, AUTO)
 
 
-PB_BIND(SensorDataResponse, SensorDataResponse, 2)
+PB_BIND(energyleaf_SensorDataResponse, energyleaf_SensorDataResponse, 2)
 
 
-PB_BIND(ScriptAcceptedRequest, ScriptAcceptedRequest, AUTO)
+PB_BIND(energyleaf_ScriptAcceptedRequest, energyleaf_ScriptAcceptedRequest, AUTO)
 
 
-PB_BIND(ScriptAcceptedResponse, ScriptAcceptedResponse, 2)
+PB_BIND(energyleaf_ScriptAcceptedResponse, energyleaf_ScriptAcceptedResponse, 2)
 
 
 
+
+#ifndef PB_CONVERT_DOUBLE_FLOAT
+/* On some platforms (such as AVR), double is really float.
+ * To be able to encode/decode double on these platforms, you need.
+ * to define PB_CONVERT_DOUBLE_FLOAT in pb.h or compiler command line.
+ */
+PB_STATIC_ASSERT(sizeof(double) == 8, DOUBLE_MUST_BE_8_BYTES)
+#endif
 

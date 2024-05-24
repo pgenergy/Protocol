@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package energyleaf;
+
 enum SensorType {
 	ANALOG_ELECTRICITY = 0;
 	DIGITAL_ELECTRICITY = 1;
@@ -20,13 +22,14 @@ message TokenResponse {
 	optional string status_message = 4;
 	optional string script = 5;
 	optional uint32 analog_rotation_per_kwh = 6;
-    	optional float current_value = 7;
 }
 
 message SensorDataRequest {
 	string access_token = 1;
 	SensorType type = 2;
-	float value = 3;
+	double value_in = 3; //kWh total
+	optional double value_current = 4; //W currently
+	optional double value_out = 5; //kWh total out (pv)
 }
 
 message SensorDataResponse {
