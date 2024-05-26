@@ -31,21 +31,21 @@ jobs:
 
       - name: Install Nanopb
         run: | 
-            pip install --upgrade protobuf grpcio-tools
-            mkdir -p nanopb
-            curl -L https://jpa.kapsi.fi/nanopb/download/nanopb-0.4.8-linux-x86.tar.gz | tar xz -C nanopb --strip-components=1
+          pip install --upgrade protobuf grpcio-tools
+          mkdir -p nanopb
+          curl -L https://jpa.kapsi.fi/nanopb/download/nanopb-0.4.8-linux-x86.tar.gz | tar xz -C nanopb --strip-components=1
 
       - name: Make c release
         run: |
-            cd build/c
-            make
+          cd build/c
+          make
 
       - name: Upload assets to release
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
           echo "Uploading c files"
-          gh release upload $GITHUB_REF_NAME $release_file
+          gh release upload $GITHUB_REF_NAME release/c_build.zip
 
 
   build-cpp:
@@ -62,21 +62,21 @@ jobs:
 
       - name: Install Nanopb
         run: | 
-            pip install --upgrade protobuf grpcio-tools
-            mkdir -p nanopb
-            curl -L https://jpa.kapsi.fi/nanopb/download/nanopb-0.4.8-linux-x86.tar.gz | tar xz -C nanopb --strip-components=1
+          pip install --upgrade protobuf grpcio-tools
+          mkdir -p nanopb
+          curl -L https://jpa.kapsi.fi/nanopb/download/nanopb-0.4.8-linux-x86.tar.gz | tar xz -C nanopb --strip-components=1
 
       - name: Make cpp release
         run: |
-            cd build/c
-            make
+          cd build/c
+          make
 
       - name: Upload assets to release
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
           echo "Uploading cpp files"
-          gh release upload $GITHUB_REF_NAME $release_file
+          gh release upload $GITHUB_REF_NAME release/cpp_build.zip
 
   build-java:
     needs: create-release
@@ -92,18 +92,18 @@ jobs:
 
       - name: Install Nanopb
         run: | 
-            pip install --upgrade protobuf grpcio-tools
-            mkdir -p nanopb
-            curl -L https://jpa.kapsi.fi/nanopb/download/nanopb-0.4.8-linux-x86.tar.gz | tar xz -C nanopb --strip-components=1
+          pip install --upgrade protobuf grpcio-tools
+          mkdir -p nanopb
+          curl -L https://jpa.kapsi.fi/nanopb/download/nanopb-0.4.8-linux-x86.tar.gz | tar xz -C nanopb --strip-components=1
 
       - name: Make java release
         run: |
-            cd build/c
-            make
+          cd build/c
+          make
 
       - name: Upload assets to release
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
           echo "Uploading cpp files"
-          gh release upload $GITHUB_REF_NAME $release_file
+          gh release upload $GITHUB_REF_NAME release/java_build.zip
