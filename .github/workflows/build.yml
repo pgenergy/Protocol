@@ -1,0 +1,60 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - v[0-9]+.*
+      
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: taiki-e/create-gh-release-action@v1
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+
+  build-and-upload:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v3
+        with:
+          version: "27.x"
+
+      - name: Install Nanopb
+        run: | 
+            pip install --upgrade protobuf grpcio-tools
+            mkdir -p nanopb
+            curl -L https://jpa.kapsi.fi/nanopb/download/nanopb-0.4.8-linux-x86.tar.gz | tar xz -C nanopb --strip-components=1
+
+      - name: Make
+        run: |
+            for dir in build/*; do
+              if [ -d "$dir" ]; then
+                echo "Processing %dir"
+                (cd "$dir" && make)
+              fi
+            done
+
+      # Do we need to upload also as artifact?
+      #- name: Upload artifacts
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: release
+      #    path: release/*
+
+      - name: Upload assets to release
+        env: 
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          for release_file in release/*.zip; do
+            echo "Uploading $release_file to release"
+            gh release upload $GITHUB_REF_NAME $release_file
+          done
+          
+          
