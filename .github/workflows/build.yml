@@ -40,11 +40,10 @@ jobs:
           cd build/c
           make
 
-      - name: Upload assets to release
+      - name: Upload c assets to release
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          echo "Uploading c files"
           gh release upload $GITHUB_REF_NAME release/c_build.zip
 
 
@@ -65,11 +64,10 @@ jobs:
           cd build/cpp
           make
 
-      - name: Upload assets to release
+      - name: Upload cpp assets to release
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          echo "Uploading cpp files"
           gh release upload $GITHUB_REF_NAME release/cpp_build.zip
 
   build-java:
@@ -89,9 +87,8 @@ jobs:
           cd build/java
           make
 
-      - name: Upload assets to release
+      - name: Upload java assets to release
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          echo "Uploading cpp files"
           gh release upload $GITHUB_REF_NAME release/java_build.zip
