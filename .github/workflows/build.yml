@@ -68,7 +68,7 @@ jobs:
 
       - name: Make cpp release
         run: |
-          cd build/c
+          cd build/cpp
           make
 
       - name: Upload assets to release
@@ -98,7 +98,7 @@ jobs:
 
       - name: Make java release
         run: |
-          cd build/c
+          cd build/java
           make
 
       - name: Upload assets to release
