@@ -2,3 +2,11 @@
 
 # misc
 .DS_Store
+
+# build files
+target
+generated
+release
+
+# env files
+.env
