@@ -60,12 +60,6 @@ jobs:
         with:
           version: "27.x"
 
-      - name: Install Nanopb
-        run: | 
-          pip install --upgrade protobuf grpcio-tools
-          mkdir -p nanopb
-          curl -L https://jpa.kapsi.fi/nanopb/download/nanopb-0.4.8-linux-x86.tar.gz | tar xz -C nanopb --strip-components=1
-
       - name: Make cpp release
         run: |
           cd build/cpp
@@ -89,12 +83,6 @@ jobs:
         uses: arduino/setup-protoc@v3
         with:
           version: "27.x"
-
-      - name: Install Nanopb
-        run: | 
-          pip install --upgrade protobuf grpcio-tools
-          mkdir -p nanopb
-          curl -L https://jpa.kapsi.fi/nanopb/download/nanopb-0.4.8-linux-x86.tar.gz | tar xz -C nanopb --strip-components=1
 
       - name: Make java release
         run: |
