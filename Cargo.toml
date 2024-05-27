@@ -1,7 +1,16 @@
 [package]
 name = "energyleaf-proto"
-version = "0.1.0"
+authors = ["pgenergy <energyleaf@uni-oldenburg.de>"]
+readme = "README.md"
+repository = "https://github.com/pgenergy/Protocol"
+version = "0.1.2"
 edition = "2021"
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+    "**/*.proto",
+    "README.md",
+]
 
 [dependencies]
 prost = "0.12.6"
