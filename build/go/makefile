@@ -1,4 +1,4 @@
-# build/cpp/makefile
+# build/go/makefile
 
 .PHONY: all clean zip
 
