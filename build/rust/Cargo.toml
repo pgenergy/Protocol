@@ -19,4 +19,4 @@ prost = "0.12.6"
 prost-build = { version = "0.12.6" }
 
 [lib]
-path = "build/rust/lib.rs"
+path = "src/lib.rs"
