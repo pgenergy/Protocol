@@ -160,5 +160,6 @@ jobs:
 
       - name: Make node release
         run: |
+          cd build/node
           pnpm build
           # In the future release to npm
