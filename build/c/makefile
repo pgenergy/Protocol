@@ -11,7 +11,7 @@ PROTO_SRC = ./../../proto/Energyleaf.proto
 
 build:
 	@mkdir -p $(PROTO_OUT_DIR)
-	protoc --plugin=protoc-gen-nanopb=./../../nanopb/generator/protoc-gen-nanopb -I=./../../proto/ --nanopb_out=$(PROTO_OUT_DIR) $(PROTO_SRC)
+	./../../nanopb/generator/protoc -I=./../../proto/ --nanopb_out=$(PROTO_OUT_DIR) $(PROTO_SRC)
 
 zip:
 	7z a ./../../release/c_build.zip ./generated/*
