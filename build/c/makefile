@@ -6,12 +6,14 @@
 
 all: build zip
 
-PROTO_OUT_DIR = ./generated
+PROTO_OUT_DIR = /generated
+PROTO_OUT_DIR_PATH = $(realpath ./)$(PROTO_OUT_DIR)
 PROTO_SRC = ./../../proto/Energyleaf.proto
+NANOPB = $(realpath ./../../nanopb/generator/protoc)
 
 build:
-	@mkdir -p $(PROTO_OUT_DIR)
-	./../../nanopb/generator/protoc -I=./../../proto/ --nanopb_out=$(PROTO_OUT_DIR) $(PROTO_SRC)
+	mkdir -p $(PROTO_OUT_DIR_PATH)
+	cd $(realpath ./../../proto/) && $(NANOPB) --nanopb_out=$(PROTO_OUT_DIR_PATH) $(realpath $(PROTO_SRC)) -I=$(realpath ./../../proto/)
 
 zip:
 	7z a ./../../release/c_build.zip ./generated/*
