@@ -154,10 +154,11 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          cd build/node
+          pnpm install
 
       - name: Make node release
         run: |
-          cd build/node
           pnpm build
           # In the future release to npm
