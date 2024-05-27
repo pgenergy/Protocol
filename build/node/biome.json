@@ -1,0 +1,25 @@
+{
+    "$schema": "https://biomejs.dev/schemas/1.6.0/schema.json",
+    "organizeImports": {
+        "enabled": true
+    },
+    "files": {
+        "ignoreUnknown": true,
+        "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.cjs", "**/*.mjs"],
+        "ignore": ["node_modules", "dist/*", "packages/proto/lib/*", ".vscode/*", "src/lib/*"]
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true
+        }
+    },
+    "formatter": {
+        "enabled": true,
+        "formatWithErrors": false,
+        "indentStyle": "space",
+        "indentWidth": 4,
+        "lineEnding": "lf",
+        "lineWidth": 120
+    }
+}

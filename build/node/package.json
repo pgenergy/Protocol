@@ -1,0 +1,42 @@
+{
+    "name": "protocol",
+    "version": "0.1.0",
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "exports": {
+        "import": {
+            "types": "./dist/index.d.mts",
+            "default": "./dist/index.mjs"
+        },
+        "require": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        }
+    },
+    "scripts": {
+        "compile": "protoc --ts_out ./src/lib --proto_path ../../proto ../../proto/*.proto",
+        "format": "biome format --write .",
+        "build": "pnpm compile && bunchee"
+    },
+    "keywords": [],
+    "author": "pgenergy",
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pgenergy/Protocol.git"
+    },
+    "dependencies": {
+        "@protobuf-ts/runtime": "^2.9.4"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "1.7.3",
+        "@protobuf-ts/plugin": "^2.9.4",
+        "@protobuf-ts/protoc": "^2.9.4",
+        "bunchee": "^5.1.5",
+        "typescript": "5.4.5"
+    }
+}
