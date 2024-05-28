@@ -1,0 +1,42 @@
+name: Compile proto files on push
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*.proto'
+
+jobs:
+  build-go:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v3
+        with:
+          version: "27.x"
+
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22.3'
+
+      - name: Install protoc-gen-go
+        run: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+
+      - name: Compile protoc
+        run: |
+          cd build/go
+          make build
+          cd ../..
+
+      - name: Push newley created files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "chore: update generated files"
+          git push
