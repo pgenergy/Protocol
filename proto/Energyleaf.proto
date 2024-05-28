@@ -31,6 +31,7 @@ message SensorDataRequest {
   double value = 3;                  // kWh total
   optional double value_current = 4; // W currently
   optional double value_out = 5;     // kWh total out (e.g. pv)
+  optional uint64 timestamp = 6;
 }
 
 message SensorDataResponse {
