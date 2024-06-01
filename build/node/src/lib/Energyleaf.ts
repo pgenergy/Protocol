@@ -80,6 +80,10 @@ export interface SensorDataRequest {
      * @generated from protobuf field: optional double value_out = 5;
      */
     valueOut?: number; // kWh total out (e.g. pv)
+    /**
+     * @generated from protobuf field: optional uint64 timestamp = 6;
+     */
+    timestamp?: bigint;
 }
 /**
  * @generated from protobuf message energyleaf.SensorDataResponse
@@ -289,7 +293,8 @@ class SensorDataRequest$Type extends MessageType<SensorDataRequest> {
             { no: 2, name: "type", kind: "enum", T: () => ["energyleaf.SensorType", SensorType] },
             { no: 3, name: "value", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
             { no: 4, name: "value_current", kind: "scalar", opt: true, T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 5, name: "value_out", kind: "scalar", opt: true, T: 1 /*ScalarType.DOUBLE*/ }
+            { no: 5, name: "value_out", kind: "scalar", opt: true, T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 6, name: "timestamp", kind: "scalar", opt: true, T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ }
         ]);
     }
     create(value?: PartialMessage<SensorDataRequest>): SensorDataRequest {
@@ -321,6 +326,9 @@ class SensorDataRequest$Type extends MessageType<SensorDataRequest> {
                 case /* optional double value_out */ 5:
                     message.valueOut = reader.double();
                     break;
+                case /* optional uint64 timestamp */ 6:
+                    message.timestamp = reader.uint64().toBigInt();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -348,6 +356,9 @@ class SensorDataRequest$Type extends MessageType<SensorDataRequest> {
         /* optional double value_out = 5; */
         if (message.valueOut !== undefined)
             writer.tag(5, WireType.Bit64).double(message.valueOut);
+        /* optional uint64 timestamp = 6; */
+        if (message.timestamp !== undefined)
+            writer.tag(6, WireType.Varint).uint64(message.timestamp);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
