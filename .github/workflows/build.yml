@@ -114,8 +114,12 @@ jobs:
           mkdir -p proto
           cp ../../proto/Energyleaf.proto proto/
           cp ../../README.md README.md
+          # cp ../../LICENSE LICENSE
           cargo build --release
-          # In the future release to crates.io
+        #   cargo login ${{ secrets.CARGO_AUTH_TOKEN }}
+        #   cargo publish
+        # env:
+        #   CARGO_AUTH_TOKEN: ${{ secrets.CARGO_AUTH_TOKEN }}
 
   build-node:
     needs: create-release
@@ -162,4 +166,6 @@ jobs:
         run: |
           cd build/node
           pnpm build
-          # In the future release to npm
+        #   pnpm publish --access public
+        # env:
+        #   NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
