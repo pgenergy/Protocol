@@ -117,7 +117,7 @@ jobs:
           cp ../../LICENSE LICENSE
           cargo build --release
           cargo login ${{ secrets.CARGO_AUTH_TOKEN }}
-          cargo publish
+          cargo publish --allow-dirty
         env:
           CARGO_AUTH_TOKEN: ${{ secrets.CARGO_AUTH_TOKEN }}
 
@@ -166,6 +166,6 @@ jobs:
         run: |
           cd build/node
           pnpm build
-          pnpm publish --access public
+          pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
