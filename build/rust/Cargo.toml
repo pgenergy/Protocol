@@ -1,9 +1,10 @@
 [package]
 name = "energyleaf-proto"
+description = "Protobuf definitions for Energyleaf"
 authors = ["pgenergy <energyleaf@uni-oldenburg.de>"]
 readme = "README.md"
 repository = "https://github.com/pgenergy/Protocol"
-version = "0.1.4"
+version = "0.1.5"
 license = "MIT"
 edition = "2021"
 include = [

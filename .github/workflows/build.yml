@@ -167,6 +167,8 @@ jobs:
       - name: Make node release
         run: |
           cd build/node
+          cp ../../README.md README.md
+          cp ../../LICENSE LICENSE
           pnpm build
           pnpm publish --access public --no-git-checks
         env:
