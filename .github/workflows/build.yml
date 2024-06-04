@@ -160,7 +160,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd build/node
-          pnpm install --frozen-lockfile
+          pnpm install
 
       - name: Make node release
         run: |
