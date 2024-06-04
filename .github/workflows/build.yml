@@ -116,8 +116,8 @@ jobs:
           cp ../../README.md README.md
           cp ../../LICENSE LICENSE
           cargo build --release
-          cargo login ${{ secrets.CARGO_AUTH_TOKEN }}
-          cargo publish --allow-dirty
+          # cargo login ${{ secrets.CARGO_AUTH_TOKEN }}
+          # cargo publish --allow-dirty
         env:
           CARGO_AUTH_TOKEN: ${{ secrets.CARGO_AUTH_TOKEN }}
 
