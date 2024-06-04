@@ -114,7 +114,6 @@ jobs:
           cd build/rust
           mkdir -p proto
           cp ../../proto/Energyleaf.proto proto/
-          cp ../../README.md README.md
           cp ../../LICENSE LICENSE
           cargo build --release
           cargo login ${{ secrets.CARGO_AUTH_TOKEN }}
@@ -167,7 +166,6 @@ jobs:
       - name: Make node release
         run: |
           cd build/node
-          cp ../../README.md README.md
           cp ../../LICENSE LICENSE
           pnpm build
           pnpm publish --access public --no-git-checks
