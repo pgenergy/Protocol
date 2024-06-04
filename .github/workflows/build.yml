@@ -2,6 +2,7 @@ name: Build and Release
 
 permissions:
   contents: write
+  packages: write
 
 on:
   push:
@@ -116,8 +117,8 @@ jobs:
           cp ../../README.md README.md
           cp ../../LICENSE LICENSE
           cargo build --release
-          # cargo login ${{ secrets.CARGO_AUTH_TOKEN }}
-          # cargo publish --allow-dirty
+          cargo login ${{ secrets.CARGO_AUTH_TOKEN }}
+          cargo publish --allow-dirty
         env:
           CARGO_AUTH_TOKEN: ${{ secrets.CARGO_AUTH_TOKEN }}
 
@@ -137,6 +138,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: "https://registry.npmjs.org"
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
@@ -168,4 +170,6 @@ jobs:
           pnpm build
           pnpm publish --access public --no-git-checks
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
