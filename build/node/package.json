@@ -1,6 +1,13 @@
 {
     "name": "protocol",
     "version": "0.1.3",
+    "license": "MIT",
+    "keywords": [],
+    "author": "pgenergy",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pgenergy/Protocol.git"
+    },
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
     "types": "./dist/index.d.ts",
@@ -21,13 +28,6 @@
         "compile": "protoc --ts_out ./src/lib --proto_path ../../proto ../../proto/*.proto",
         "format": "biome format --write .",
         "build": "pnpm compile && bunchee"
-    },
-    "keywords": [],
-    "author": "pgenergy",
-    "license": "ISC",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/pgenergy/Protocol.git"
     },
     "dependencies": {
         "@protobuf-ts/runtime": "^2.9.4"
