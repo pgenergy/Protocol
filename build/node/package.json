@@ -1,9 +1,10 @@
 {
     "name": "@energyleaf/proto",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "license": "MIT",
     "keywords": [],
     "author": "pgenergy",
+    "homepage": "https://github.com/pgenergy/Protocol",
     "repository": {
         "type": "git",
         "url": "https://github.com/pgenergy/Protocol.git"
