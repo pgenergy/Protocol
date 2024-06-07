@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package energyleaf;
+
+message DeviceClassificationRequest {
+  map<string, ElectricityInput> electricity = 1;
+
+  message ElectricityInput {
+    int64 timestamp = 1;
+    double power = 2;
+  }
+}
+
+message DeviceClassificationResponse {
+  map<string, ElectricityOutput> electricity = 1;
+
+  message ElectricityOutput {
+    int64 timestamp = 1;
+    double power = 2;
+    string classification = 3;
+  }
+}
