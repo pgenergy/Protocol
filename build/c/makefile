@@ -8,16 +8,20 @@ all: build zip
 
 PROTO_OUT_DIR = /generated
 PROTO_OUT_DIR_PATH = $(realpath ./)$(PROTO_OUT_DIR)
-PROTO_SRC = ./../../proto/Energyleaf.proto
+PROTO_SRC_DIR = ./../../proto
 NANOPB = $(realpath ./../../nanopb/generator/protoc)
+
+PROTO_FILES := $(shell find $(PROTO_SRC_DIR) -name '*.proto')
 
 build:
 	@mkdir -p $(PROTO_OUT_DIR_PATH)
-	cd $(realpath ./../../proto/) && $(NANOPB) --nanopb_out=$(PROTO_OUT_DIR_PATH) $(realpath $(PROTO_SRC)) -I=$(realpath ./../../proto/)
+	@echo "Generating C code from protobuf files..."
+	@echo $(PROTO_FILES)
+	cd $(PROTO_SRC_DIR) && $(NANOPB) --nanopb_out=$(PROTO_OUT_DIR_PATH) $(PROTO_FILES) -I=$(PROTO_SRC_DIR)
 
 zip:
 	7z a ./../../release/c_build.zip ./generated/*
 
 clean:
-	rm ./../../release/c_build.zip
+	rm -f ./../../release/c_build.zip
 	rm -rf ./generated

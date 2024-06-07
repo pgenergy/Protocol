@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package energyleaf;
+package energyleaf_ml;
 
 message DeviceClassificationRequest {
   map<string, ElectricityInput> electricity = 1;

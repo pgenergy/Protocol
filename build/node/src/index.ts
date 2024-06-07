@@ -1,4 +1,5 @@
 export * from "./lib/Energyleaf";
+export * from "./lib/Energyleaf-ML";
 
 /**
  * Parse the binary data from a request body

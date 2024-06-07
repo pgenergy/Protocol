@@ -25,7 +25,7 @@
         }
     },
     "scripts": {
-        "compile": "protoc --ts_out ./src/lib --proto_path ../../proto ../../proto/*.proto",
+        "compile": "protoc --ts_out ./src/lib --proto_path ../../proto $(ls ../../proto/*.proto)",
         "format": "biome format --write .",
         "build": "pnpm compile && bunchee"
     },
