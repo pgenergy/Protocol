@@ -1,6 +1,6 @@
 {
     "name": "@energyleaf/proto",
-    "version": "0.1.6",
+    "version": "0.2.0",
     "license": "MIT",
     "keywords": [],
     "author": "pgenergy",
@@ -26,9 +26,10 @@
         }
     },
     "scripts": {
-        "compile": "protoc --ts_out ./src/lib --proto_path ../../proto ../../proto/*.proto",
+        "compile": "protoc --ts_out ./src/lib --proto_path ../../proto $(ls ../../proto/*.proto)",
+        "generate": "node ./compile-index.cjs",
         "format": "biome format --write .",
-        "build": "pnpm compile && bunchee"
+        "build": "pnpm compile && pnpm generate && bunchee"
     },
     "dependencies": {
         "@protobuf-ts/runtime": "^2.9.4"

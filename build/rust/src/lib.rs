@@ -1,3 +1,3 @@
 pub extern crate prost;
 
-include!(concat!(env!("OUT_DIR"), "/energyleaf.rs"));
+include!(concat!(env!("OUT_DIR"), "/mod.rs"));

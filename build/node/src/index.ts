@@ -1,4 +1,4 @@
-export * from "./lib/Energyleaf";
+export * from './lib';
 
 /**
  * Parse the binary data from a request body

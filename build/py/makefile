@@ -1,4 +1,4 @@
-# build/java/makefile
+# build/py/makefile
 
 .PHONY: all clean zip
 
@@ -10,13 +10,13 @@ PROTO_FILES := $(shell find $(PROTO_SRC_DIR) -name '*.proto')
 
 build:
 	@mkdir -p $(PROTO_OUT_DIR)
-	@echo "Generating Java code from protobuf files..."
+	@echo "Generating Python code from protobuf files..."
 	@echo $(PROTO_FILES)
-	@protoc -I=$(PROTO_SRC_DIR) --java_out=$(PROTO_OUT_DIR) $(PROTO_FILES)
+	@protoc -I=$(PROTO_SRC_DIR) --python_out=$(PROTO_OUT_DIR) $(PROTO_FILES)
 
 zip:
-	7z a ./../../release/java_build.zip ./generated/*
+	7z a ./../../release/py_build.zip ./generated/*
 
 clean:
-	rm ./../../release/java_build.zip
+	rm ./../../release/py_build.zip
 	rm -rf ./generated
