@@ -137,7 +137,7 @@ jobs:
         run: |
           cd build/rust
           mkdir -p proto
-          cp ../../proto/Energyleaf.proto proto/
+          cp -r ../../proto proto/
           cp ../../LICENSE LICENSE
           cargo build --release
           cargo login ${{ secrets.CARGO_AUTH_TOKEN }}
