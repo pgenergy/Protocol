@@ -11,13 +11,13 @@ PROTO_OUT_DIR_PATH = $(realpath ./)$(PROTO_OUT_DIR)
 PROTO_SRC_DIR = ./../../proto
 NANOPB = $(realpath ./../../nanopb/generator/protoc)
 
-PROTO_FILES := $(shell find $(PROTO_SRC_DIR) -name '*.proto')
+PROTO_FILES := $(shell find $(PROTO_SRC_DIR) -name '*.proto' -exec realpath {} \;)
 
 build:
 	@mkdir -p $(PROTO_OUT_DIR_PATH)
 	@echo "Generating C code from protobuf files..."
 	@echo $(PROTO_FILES)
-	cd $(PROTO_SRC_DIR) && $(NANOPB) --nanopb_out=$(PROTO_OUT_DIR_PATH) $(PROTO_FILES) -I=$(PROTO_SRC_DIR)
+	cd $(realpath $(PROTO_SRC_DIR)) && $(NANOPB) --nanopb_out=$(PROTO_OUT_DIR_PATH) $(PROTO_FILES) -I=$(realpath $(PROTO_SRC_DIR))
 
 zip:
 	7z a ./../../release/c_build.zip ./generated/*
@@ -25,3 +25,4 @@ zip:
 clean:
 	rm -f ./../../release/c_build.zip
 	rm -rf ./generated
+
