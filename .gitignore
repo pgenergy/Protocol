@@ -12,6 +12,8 @@ generated
 release
 dist
 
-
 # env files
 .env
+
+# nanopb
+nanopb
