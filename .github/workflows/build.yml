@@ -136,7 +136,6 @@ jobs:
       - name: Make rust release
         run: |
           cd build/rust
-          mkdir -p proto
           cp -r ../../proto proto/
           cp ../../LICENSE LICENSE
           cargo build --release
