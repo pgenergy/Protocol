@@ -15,20 +15,18 @@ import { MessageType } from "@protobuf-ts/runtime";
  */
 export interface DeviceClassificationRequest {
     /**
-     * @generated from protobuf field: map<string, energyleaf_ml.DeviceClassificationRequest.ElectricityInput> electricity = 1;
+     * @generated from protobuf field: repeated energyleaf_ml.DeviceClassificationRequest.ElectricityInput electricity = 1;
      */
-    electricity: {
-        [key: string]: DeviceClassificationRequest_ElectricityInput;
-    };
+    electricity: DeviceClassificationRequest_ElectricityInput[];
 }
 /**
  * @generated from protobuf message energyleaf_ml.DeviceClassificationRequest.ElectricityInput
  */
 export interface DeviceClassificationRequest_ElectricityInput {
     /**
-     * @generated from protobuf field: int64 timestamp = 1;
+     * @generated from protobuf field: string timestamp = 1;
      */
-    timestamp: bigint;
+    timestamp: string; // ISO timestamp
     /**
      * @generated from protobuf field: double power = 2;
      */
@@ -39,39 +37,43 @@ export interface DeviceClassificationRequest_ElectricityInput {
  */
 export interface DeviceClassificationResponse {
     /**
-     * @generated from protobuf field: map<string, energyleaf_ml.DeviceClassificationResponse.ElectricityOutput> electricity = 1;
+     * @generated from protobuf field: repeated energyleaf_ml.DeviceClassificationResponse.ElectricityOutput electricity = 1;
      */
-    electricity: {
-        [key: string]: DeviceClassificationResponse_ElectricityOutput;
-    };
+    electricity: DeviceClassificationResponse_ElectricityOutput[];
 }
 /**
  * @generated from protobuf message energyleaf_ml.DeviceClassificationResponse.ElectricityOutput
  */
 export interface DeviceClassificationResponse_ElectricityOutput {
     /**
-     * @generated from protobuf field: int64 timestamp = 1;
+     * @generated from protobuf field: string timestamp = 1;
      */
-    timestamp: bigint;
+    timestamp: string; // ISO timestamp
     /**
      * @generated from protobuf field: double power = 2;
      */
     power: number;
     /**
-     * @generated from protobuf field: string classification = 3;
+     * @generated from protobuf field: string dominant_classification = 3;
      */
-    classification: string;
+    dominantClassification: string;
+    /**
+     * @generated from protobuf field: map<string, double> classification = 4;
+     */
+    classification: {
+        [key: string]: number;
+    };
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class DeviceClassificationRequest$Type extends MessageType<DeviceClassificationRequest> {
     constructor() {
         super("energyleaf_ml.DeviceClassificationRequest", [
-            { no: 1, name: "electricity", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "message", T: () => DeviceClassificationRequest_ElectricityInput } }
+            { no: 1, name: "electricity", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => DeviceClassificationRequest_ElectricityInput }
         ]);
     }
     create(value?: PartialMessage<DeviceClassificationRequest>): DeviceClassificationRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.electricity = {};
+        message.electricity = [];
         if (value !== undefined)
             reflectionMergePartial<DeviceClassificationRequest>(this, message, value);
         return message;
@@ -81,8 +83,8 @@ class DeviceClassificationRequest$Type extends MessageType<DeviceClassificationR
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* map<string, energyleaf_ml.DeviceClassificationRequest.ElectricityInput> electricity */ 1:
-                    this.binaryReadMap1(message.electricity, reader, options);
+                case /* repeated energyleaf_ml.DeviceClassificationRequest.ElectricityInput electricity */ 1:
+                    message.electricity.push(DeviceClassificationRequest_ElectricityInput.internalBinaryRead(reader, reader.uint32(), options));
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -95,30 +97,10 @@ class DeviceClassificationRequest$Type extends MessageType<DeviceClassificationR
         }
         return message;
     }
-    private binaryReadMap1(map: DeviceClassificationRequest["electricity"], reader: IBinaryReader, options: BinaryReadOptions): void {
-        let len = reader.uint32(), end = reader.pos + len, key: keyof DeviceClassificationRequest["electricity"] | undefined, val: DeviceClassificationRequest["electricity"][any] | undefined;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case 1:
-                    key = reader.string();
-                    break;
-                case 2:
-                    val = DeviceClassificationRequest_ElectricityInput.internalBinaryRead(reader, reader.uint32(), options);
-                    break;
-                default: throw new globalThis.Error("unknown map entry field for field energyleaf_ml.DeviceClassificationRequest.electricity");
-            }
-        }
-        map[key ?? ""] = val ?? DeviceClassificationRequest_ElectricityInput.create();
-    }
     internalBinaryWrite(message: DeviceClassificationRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* map<string, energyleaf_ml.DeviceClassificationRequest.ElectricityInput> electricity = 1; */
-        for (let k of globalThis.Object.keys(message.electricity)) {
-            writer.tag(1, WireType.LengthDelimited).fork().tag(1, WireType.LengthDelimited).string(k);
-            writer.tag(2, WireType.LengthDelimited).fork();
-            DeviceClassificationRequest_ElectricityInput.internalBinaryWrite(message.electricity[k], writer, options);
-            writer.join().join();
-        }
+        /* repeated energyleaf_ml.DeviceClassificationRequest.ElectricityInput electricity = 1; */
+        for (let i = 0; i < message.electricity.length; i++)
+            DeviceClassificationRequest_ElectricityInput.internalBinaryWrite(message.electricity[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -133,13 +115,13 @@ export const DeviceClassificationRequest = new DeviceClassificationRequest$Type(
 class DeviceClassificationRequest_ElectricityInput$Type extends MessageType<DeviceClassificationRequest_ElectricityInput> {
     constructor() {
         super("energyleaf_ml.DeviceClassificationRequest.ElectricityInput", [
-            { no: 1, name: "timestamp", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 1, name: "timestamp", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "power", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ }
         ]);
     }
     create(value?: PartialMessage<DeviceClassificationRequest_ElectricityInput>): DeviceClassificationRequest_ElectricityInput {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.timestamp = 0n;
+        message.timestamp = "";
         message.power = 0;
         if (value !== undefined)
             reflectionMergePartial<DeviceClassificationRequest_ElectricityInput>(this, message, value);
@@ -150,8 +132,8 @@ class DeviceClassificationRequest_ElectricityInput$Type extends MessageType<Devi
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* int64 timestamp */ 1:
-                    message.timestamp = reader.int64().toBigInt();
+                case /* string timestamp */ 1:
+                    message.timestamp = reader.string();
                     break;
                 case /* double power */ 2:
                     message.power = reader.double();
@@ -168,9 +150,9 @@ class DeviceClassificationRequest_ElectricityInput$Type extends MessageType<Devi
         return message;
     }
     internalBinaryWrite(message: DeviceClassificationRequest_ElectricityInput, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* int64 timestamp = 1; */
-        if (message.timestamp !== 0n)
-            writer.tag(1, WireType.Varint).int64(message.timestamp);
+        /* string timestamp = 1; */
+        if (message.timestamp !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.timestamp);
         /* double power = 2; */
         if (message.power !== 0)
             writer.tag(2, WireType.Bit64).double(message.power);
@@ -188,12 +170,12 @@ export const DeviceClassificationRequest_ElectricityInput = new DeviceClassifica
 class DeviceClassificationResponse$Type extends MessageType<DeviceClassificationResponse> {
     constructor() {
         super("energyleaf_ml.DeviceClassificationResponse", [
-            { no: 1, name: "electricity", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "message", T: () => DeviceClassificationResponse_ElectricityOutput } }
+            { no: 1, name: "electricity", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => DeviceClassificationResponse_ElectricityOutput }
         ]);
     }
     create(value?: PartialMessage<DeviceClassificationResponse>): DeviceClassificationResponse {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.electricity = {};
+        message.electricity = [];
         if (value !== undefined)
             reflectionMergePartial<DeviceClassificationResponse>(this, message, value);
         return message;
@@ -203,8 +185,8 @@ class DeviceClassificationResponse$Type extends MessageType<DeviceClassification
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* map<string, energyleaf_ml.DeviceClassificationResponse.ElectricityOutput> electricity */ 1:
-                    this.binaryReadMap1(message.electricity, reader, options);
+                case /* repeated energyleaf_ml.DeviceClassificationResponse.ElectricityOutput electricity */ 1:
+                    message.electricity.push(DeviceClassificationResponse_ElectricityOutput.internalBinaryRead(reader, reader.uint32(), options));
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -217,30 +199,10 @@ class DeviceClassificationResponse$Type extends MessageType<DeviceClassification
         }
         return message;
     }
-    private binaryReadMap1(map: DeviceClassificationResponse["electricity"], reader: IBinaryReader, options: BinaryReadOptions): void {
-        let len = reader.uint32(), end = reader.pos + len, key: keyof DeviceClassificationResponse["electricity"] | undefined, val: DeviceClassificationResponse["electricity"][any] | undefined;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case 1:
-                    key = reader.string();
-                    break;
-                case 2:
-                    val = DeviceClassificationResponse_ElectricityOutput.internalBinaryRead(reader, reader.uint32(), options);
-                    break;
-                default: throw new globalThis.Error("unknown map entry field for field energyleaf_ml.DeviceClassificationResponse.electricity");
-            }
-        }
-        map[key ?? ""] = val ?? DeviceClassificationResponse_ElectricityOutput.create();
-    }
     internalBinaryWrite(message: DeviceClassificationResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* map<string, energyleaf_ml.DeviceClassificationResponse.ElectricityOutput> electricity = 1; */
-        for (let k of globalThis.Object.keys(message.electricity)) {
-            writer.tag(1, WireType.LengthDelimited).fork().tag(1, WireType.LengthDelimited).string(k);
-            writer.tag(2, WireType.LengthDelimited).fork();
-            DeviceClassificationResponse_ElectricityOutput.internalBinaryWrite(message.electricity[k], writer, options);
-            writer.join().join();
-        }
+        /* repeated energyleaf_ml.DeviceClassificationResponse.ElectricityOutput electricity = 1; */
+        for (let i = 0; i < message.electricity.length; i++)
+            DeviceClassificationResponse_ElectricityOutput.internalBinaryWrite(message.electricity[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -255,16 +217,18 @@ export const DeviceClassificationResponse = new DeviceClassificationResponse$Typ
 class DeviceClassificationResponse_ElectricityOutput$Type extends MessageType<DeviceClassificationResponse_ElectricityOutput> {
     constructor() {
         super("energyleaf_ml.DeviceClassificationResponse.ElectricityOutput", [
-            { no: 1, name: "timestamp", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 1, name: "timestamp", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "power", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 3, name: "classification", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 3, name: "dominant_classification", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "classification", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ } }
         ]);
     }
     create(value?: PartialMessage<DeviceClassificationResponse_ElectricityOutput>): DeviceClassificationResponse_ElectricityOutput {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.timestamp = 0n;
+        message.timestamp = "";
         message.power = 0;
-        message.classification = "";
+        message.dominantClassification = "";
+        message.classification = {};
         if (value !== undefined)
             reflectionMergePartial<DeviceClassificationResponse_ElectricityOutput>(this, message, value);
         return message;
@@ -274,14 +238,17 @@ class DeviceClassificationResponse_ElectricityOutput$Type extends MessageType<De
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* int64 timestamp */ 1:
-                    message.timestamp = reader.int64().toBigInt();
+                case /* string timestamp */ 1:
+                    message.timestamp = reader.string();
                     break;
                 case /* double power */ 2:
                     message.power = reader.double();
                     break;
-                case /* string classification */ 3:
-                    message.classification = reader.string();
+                case /* string dominant_classification */ 3:
+                    message.dominantClassification = reader.string();
+                    break;
+                case /* map<string, double> classification */ 4:
+                    this.binaryReadMap4(message.classification, reader, options);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -294,16 +261,35 @@ class DeviceClassificationResponse_ElectricityOutput$Type extends MessageType<De
         }
         return message;
     }
+    private binaryReadMap4(map: DeviceClassificationResponse_ElectricityOutput["classification"], reader: IBinaryReader, options: BinaryReadOptions): void {
+        let len = reader.uint32(), end = reader.pos + len, key: keyof DeviceClassificationResponse_ElectricityOutput["classification"] | undefined, val: DeviceClassificationResponse_ElectricityOutput["classification"][any] | undefined;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case 1:
+                    key = reader.string();
+                    break;
+                case 2:
+                    val = reader.double();
+                    break;
+                default: throw new globalThis.Error("unknown map entry field for field energyleaf_ml.DeviceClassificationResponse.ElectricityOutput.classification");
+            }
+        }
+        map[key ?? ""] = val ?? 0;
+    }
     internalBinaryWrite(message: DeviceClassificationResponse_ElectricityOutput, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* int64 timestamp = 1; */
-        if (message.timestamp !== 0n)
-            writer.tag(1, WireType.Varint).int64(message.timestamp);
+        /* string timestamp = 1; */
+        if (message.timestamp !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.timestamp);
         /* double power = 2; */
         if (message.power !== 0)
             writer.tag(2, WireType.Bit64).double(message.power);
-        /* string classification = 3; */
-        if (message.classification !== "")
-            writer.tag(3, WireType.LengthDelimited).string(message.classification);
+        /* string dominant_classification = 3; */
+        if (message.dominantClassification !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.dominantClassification);
+        /* map<string, double> classification = 4; */
+        for (let k of globalThis.Object.keys(message.classification))
+            writer.tag(4, WireType.LengthDelimited).fork().tag(1, WireType.LengthDelimited).string(k).tag(2, WireType.Bit64).double(message.classification[k]).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
