@@ -3,20 +3,21 @@ syntax = "proto3";
 package energyleaf_ml;
 
 message DeviceClassificationRequest {
-  map<string, ElectricityInput> electricity = 1;
+  repeated ElectricityInput electricity = 1;
 
   message ElectricityInput {
-    int64 timestamp = 1;
+    string timestamp = 1; // ISO timestamp
     double power = 2;
   }
 }
 
 message DeviceClassificationResponse {
-  map<string, ElectricityOutput> electricity = 1;
+  repeated ElectricityOutput electricity = 1;
 
   message ElectricityOutput {
-    int64 timestamp = 1;
+    string timestamp = 1; // ISO timestamp
     double power = 2;
-    string classification = 3;
+    string dominant_classification = 3;
+    map<string, double> classification = 4;
   }
 }
