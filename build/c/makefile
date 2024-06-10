@@ -25,3 +25,4 @@ zip:
 clean:
 	rm -f ./../../release/c_build.zip
 	rm -rf ./generated
+
