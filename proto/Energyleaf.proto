@@ -28,6 +28,12 @@ message TokenResponse {
 message SensorDataRequest {
   string access_token = 1;
   SensorType type = 2;
+  float value = 3;                  // kWh total
+}
+
+message SensorDataRequestV2 {
+  string access_token = 1;
+  SensorType type = 2;
   double value = 3;                  // kWh total
   optional double value_current = 4; // W currently
   optional double value_out = 5;     // kWh total out (e.g. pv)
