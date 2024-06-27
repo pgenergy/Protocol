@@ -3,6 +3,7 @@ energyleaf.TokenResponse.access_token max_size:45
 energyleaf.TokenResponse.status_message max_size:255
 energyleaf.TokenResponse.script max_size:666
 energyleaf.SensorDataRequest.access_token max_size:45
+energyleaf.SensorDataRequestV2.access_token max_size:45
 energyleaf.SensorDataResponse.status_message max_size:255
 energyleaf.ScriptAcceptedRequest.access_token max_size:45
 energyleaf.ScriptAcceptedResponse.status_message max_size:255
