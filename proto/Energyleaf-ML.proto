@@ -2,8 +2,13 @@ syntax = "proto3";
 
 package energyleaf_ml;
 
+message DeviceClassificationPeakRequest {
+  repeated DeviceClassificationRequest peaks = 1;
+}
+
 message DeviceClassificationRequest {
   repeated ElectricityInput electricity = 1;
+  optional string id = 2;
 
   message ElectricityInput {
     string timestamp = 1; // ISO timestamp
@@ -11,8 +16,13 @@ message DeviceClassificationRequest {
   }
 }
 
+message DeviceClassificationPeakResponse {
+  repeated DeviceClassificationResponse peaks = 1;
+}
+
 message DeviceClassificationResponse {
   repeated ElectricityOutput electricity = 1;
+  optional string id = 2;
 
   message ElectricityOutput {
     string timestamp = 1; // ISO timestamp
