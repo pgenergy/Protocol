@@ -69,6 +69,23 @@ export interface SensorDataRequest {
      */
     type: SensorType;
     /**
+     * @generated from protobuf field: float value = 3;
+     */
+    value: number; // kWh total
+}
+/**
+ * @generated from protobuf message energyleaf.SensorDataRequestV2
+ */
+export interface SensorDataRequestV2 {
+    /**
+     * @generated from protobuf field: string access_token = 1;
+     */
+    accessToken: string;
+    /**
+     * @generated from protobuf field: energyleaf.SensorType type = 2;
+     */
+    type: SensorType;
+    /**
      * @generated from protobuf field: double value = 3;
      */
     value: number; // kWh total
@@ -291,10 +308,7 @@ class SensorDataRequest$Type extends MessageType<SensorDataRequest> {
         super("energyleaf.SensorDataRequest", [
             { no: 1, name: "access_token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "type", kind: "enum", T: () => ["energyleaf.SensorType", SensorType] },
-            { no: 3, name: "value", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 4, name: "value_current", kind: "scalar", opt: true, T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 5, name: "value_out", kind: "scalar", opt: true, T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 6, name: "timestamp", kind: "scalar", opt: true, T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ }
+            { no: 3, name: "value", kind: "scalar", T: 2 /*ScalarType.FLOAT*/ }
         ]);
     }
     create(value?: PartialMessage<SensorDataRequest>): SensorDataRequest {
@@ -307,6 +321,72 @@ class SensorDataRequest$Type extends MessageType<SensorDataRequest> {
         return message;
     }
     internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: SensorDataRequest): SensorDataRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string access_token */ 1:
+                    message.accessToken = reader.string();
+                    break;
+                case /* energyleaf.SensorType type */ 2:
+                    message.type = reader.int32();
+                    break;
+                case /* float value */ 3:
+                    message.value = reader.float();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: SensorDataRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string access_token = 1; */
+        if (message.accessToken !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.accessToken);
+        /* energyleaf.SensorType type = 2; */
+        if (message.type !== 0)
+            writer.tag(2, WireType.Varint).int32(message.type);
+        /* float value = 3; */
+        if (message.value !== 0)
+            writer.tag(3, WireType.Bit32).float(message.value);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message energyleaf.SensorDataRequest
+ */
+export const SensorDataRequest = new SensorDataRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class SensorDataRequestV2$Type extends MessageType<SensorDataRequestV2> {
+    constructor() {
+        super("energyleaf.SensorDataRequestV2", [
+            { no: 1, name: "access_token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "type", kind: "enum", T: () => ["energyleaf.SensorType", SensorType] },
+            { no: 3, name: "value", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 4, name: "value_current", kind: "scalar", opt: true, T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 5, name: "value_out", kind: "scalar", opt: true, T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 6, name: "timestamp", kind: "scalar", opt: true, T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ }
+        ]);
+    }
+    create(value?: PartialMessage<SensorDataRequestV2>): SensorDataRequestV2 {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.accessToken = "";
+        message.type = 0;
+        message.value = 0;
+        if (value !== undefined)
+            reflectionMergePartial<SensorDataRequestV2>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: SensorDataRequestV2): SensorDataRequestV2 {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
@@ -340,7 +420,7 @@ class SensorDataRequest$Type extends MessageType<SensorDataRequest> {
         }
         return message;
     }
-    internalBinaryWrite(message: SensorDataRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+    internalBinaryWrite(message: SensorDataRequestV2, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* string access_token = 1; */
         if (message.accessToken !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.accessToken);
@@ -366,9 +446,9 @@ class SensorDataRequest$Type extends MessageType<SensorDataRequest> {
     }
 }
 /**
- * @generated MessageType for protobuf message energyleaf.SensorDataRequest
+ * @generated MessageType for protobuf message energyleaf.SensorDataRequestV2
  */
-export const SensorDataRequest = new SensorDataRequest$Type();
+export const SensorDataRequestV2 = new SensorDataRequestV2$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SensorDataResponse$Type extends MessageType<SensorDataResponse> {
     constructor() {
