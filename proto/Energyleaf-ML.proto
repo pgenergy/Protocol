@@ -17,7 +17,17 @@ message DeviceClassificationRequest {
 }
 
 message DeviceClassificationPeakResponse {
-  repeated DeviceClassificationResponse peaks = 1;
+  repeated Item peaks = 1;
+
+  message Item {
+    string id = 1;
+    repeated Device devices = 2;
+
+    message Device {
+      string name = 1;
+      double confidence = 2;
+    }
+  }
 }
 
 message DeviceClassificationResponse {
