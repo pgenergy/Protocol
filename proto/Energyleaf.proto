@@ -17,36 +17,53 @@ message TokenRequest {
 
 message TokenResponse {
   optional string access_token = 1;
-  optional uint32 expires_in =
-      2;             // in seconds (look documentation for correct value)
+  optional uint32 expires_in = 2; // in seconds (look documentation for correct value)
   uint32 status = 3; // In range of 200-299 correct, else bad
   optional string status_message = 4;
   optional string script = 5;
   optional uint32 analog_rotation_per_kwh = 6;
+  optional double gas_rotation_per_kwh = 7;
 }
 
-message SensorDataRequest {
+message EnergyDataRequest {
   string access_token = 1;
-  SensorType type = 2;
-  float value = 3;                  // kWh total
-}
-
-message SensorDataRequestV2 {
-  string access_token = 1;
-  SensorType type = 2;
-  double value = 3;                  // kWh total
+  double value = 2; // kWh total in (analog has kWh consumption)
   optional double value_current = 4; // W currently
   optional double value_out = 5;     // kWh total out (e.g. pv)
-  optional uint64 timestamp = 6;
+  optional string timestamp = 6;
+}
+
+message GasDataRequest {
+  string access_token = 1;
+  double value = 2;
+  optional double value_current = 3;
+}
+
+message WaterDataRequest {
+  string access_token = 1;
+  double value = 2;
+  optional double value_current = 3;
 }
 
 message SensorDataResponse {
-  uint32 status = 1; // In range of 200-299 correct, else bad
+  uint32 status = 1;
   optional string status_message = 2;
 }
 
+// deprecated
+message SensorDataRequestV2 {
+  string access_token = 1;
+  SensorType type = 2;
+  double value = 3;
+  optional double value_current = 4;
+  optional double value_out = 5;
+  optional uint64 timestamp = 6;
+}
+
+// deprecated
 message ScriptAcceptedRequest { string access_token = 1; }
 
+// deprecated
 message ScriptAcceptedResponse {
   uint32 status = 1;
   optional string status_message = 2;

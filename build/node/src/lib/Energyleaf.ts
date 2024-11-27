@@ -55,25 +55,86 @@ export interface TokenResponse {
      * @generated from protobuf field: optional uint32 analog_rotation_per_kwh = 6;
      */
     analogRotationPerKwh?: number;
+    /**
+     * @generated from protobuf field: optional double gas_rotation_per_kwh = 7;
+     */
+    gasRotationPerKwh?: number;
 }
 /**
- * @generated from protobuf message energyleaf.SensorDataRequest
+ * @generated from protobuf message energyleaf.EnergyDataRequest
  */
-export interface SensorDataRequest {
+export interface EnergyDataRequest {
     /**
      * @generated from protobuf field: string access_token = 1;
      */
     accessToken: string;
     /**
-     * @generated from protobuf field: energyleaf.SensorType type = 2;
+     * @generated from protobuf field: double value = 2;
      */
-    type: SensorType;
+    value: number; // kWh total in (analog has kWh consumption)
     /**
-     * @generated from protobuf field: float value = 3;
+     * @generated from protobuf field: optional double value_current = 4;
      */
-    value: number; // kWh total
+    valueCurrent?: number; // W currently
+    /**
+     * @generated from protobuf field: optional double value_out = 5;
+     */
+    valueOut?: number; // kWh total out (e.g. pv)
+    /**
+     * @generated from protobuf field: optional string timestamp = 6;
+     */
+    timestamp?: string;
 }
 /**
+ * @generated from protobuf message energyleaf.GasDataRequest
+ */
+export interface GasDataRequest {
+    /**
+     * @generated from protobuf field: string access_token = 1;
+     */
+    accessToken: string;
+    /**
+     * @generated from protobuf field: double value = 2;
+     */
+    value: number;
+    /**
+     * @generated from protobuf field: optional double value_current = 3;
+     */
+    valueCurrent?: number;
+}
+/**
+ * @generated from protobuf message energyleaf.WaterDataRequest
+ */
+export interface WaterDataRequest {
+    /**
+     * @generated from protobuf field: string access_token = 1;
+     */
+    accessToken: string;
+    /**
+     * @generated from protobuf field: double value = 2;
+     */
+    value: number;
+    /**
+     * @generated from protobuf field: optional double value_current = 3;
+     */
+    valueCurrent?: number;
+}
+/**
+ * @generated from protobuf message energyleaf.SensorDataResponse
+ */
+export interface SensorDataResponse {
+    /**
+     * @generated from protobuf field: uint32 status = 1;
+     */
+    status: number;
+    /**
+     * @generated from protobuf field: optional string status_message = 2;
+     */
+    statusMessage?: string;
+}
+/**
+ * deprecated
+ *
  * @generated from protobuf message energyleaf.SensorDataRequestV2
  */
 export interface SensorDataRequestV2 {
@@ -88,34 +149,23 @@ export interface SensorDataRequestV2 {
     /**
      * @generated from protobuf field: double value = 3;
      */
-    value: number; // kWh total
+    value: number;
     /**
      * @generated from protobuf field: optional double value_current = 4;
      */
-    valueCurrent?: number; // W currently
+    valueCurrent?: number;
     /**
      * @generated from protobuf field: optional double value_out = 5;
      */
-    valueOut?: number; // kWh total out (e.g. pv)
+    valueOut?: number;
     /**
      * @generated from protobuf field: optional uint64 timestamp = 6;
      */
     timestamp?: bigint;
 }
 /**
- * @generated from protobuf message energyleaf.SensorDataResponse
- */
-export interface SensorDataResponse {
-    /**
-     * @generated from protobuf field: uint32 status = 1;
-     */
-    status: number; // In range of 200-299 correct, else bad
-    /**
-     * @generated from protobuf field: optional string status_message = 2;
-     */
-    statusMessage?: string;
-}
-/**
+ * deprecated
+ *
  * @generated from protobuf message energyleaf.ScriptAcceptedRequest
  */
 export interface ScriptAcceptedRequest {
@@ -125,6 +175,8 @@ export interface ScriptAcceptedRequest {
     accessToken: string;
 }
 /**
+ * deprecated
+ *
  * @generated from protobuf message energyleaf.ScriptAcceptedResponse
  */
 export interface ScriptAcceptedResponse {
@@ -229,7 +281,8 @@ class TokenResponse$Type extends MessageType<TokenResponse> {
             { no: 3, name: "status", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
             { no: 4, name: "status_message", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "script", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "analog_rotation_per_kwh", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ }
+            { no: 6, name: "analog_rotation_per_kwh", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ },
+            { no: 7, name: "gas_rotation_per_kwh", kind: "scalar", opt: true, T: 1 /*ScalarType.DOUBLE*/ }
         ]);
     }
     create(value?: PartialMessage<TokenResponse>): TokenResponse {
@@ -262,6 +315,9 @@ class TokenResponse$Type extends MessageType<TokenResponse> {
                 case /* optional uint32 analog_rotation_per_kwh */ 6:
                     message.analogRotationPerKwh = reader.uint32();
                     break;
+                case /* optional double gas_rotation_per_kwh */ 7:
+                    message.gasRotationPerKwh = reader.double();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -292,6 +348,9 @@ class TokenResponse$Type extends MessageType<TokenResponse> {
         /* optional uint32 analog_rotation_per_kwh = 6; */
         if (message.analogRotationPerKwh !== undefined)
             writer.tag(6, WireType.Varint).uint32(message.analogRotationPerKwh);
+        /* optional double gas_rotation_per_kwh = 7; */
+        if (message.gasRotationPerKwh !== undefined)
+            writer.tag(7, WireType.Bit64).double(message.gasRotationPerKwh);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -303,24 +362,25 @@ class TokenResponse$Type extends MessageType<TokenResponse> {
  */
 export const TokenResponse = new TokenResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class SensorDataRequest$Type extends MessageType<SensorDataRequest> {
+class EnergyDataRequest$Type extends MessageType<EnergyDataRequest> {
     constructor() {
-        super("energyleaf.SensorDataRequest", [
+        super("energyleaf.EnergyDataRequest", [
             { no: 1, name: "access_token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "type", kind: "enum", T: () => ["energyleaf.SensorType", SensorType] },
-            { no: 3, name: "value", kind: "scalar", T: 2 /*ScalarType.FLOAT*/ }
+            { no: 2, name: "value", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 4, name: "value_current", kind: "scalar", opt: true, T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 5, name: "value_out", kind: "scalar", opt: true, T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 6, name: "timestamp", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
-    create(value?: PartialMessage<SensorDataRequest>): SensorDataRequest {
+    create(value?: PartialMessage<EnergyDataRequest>): EnergyDataRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.accessToken = "";
-        message.type = 0;
         message.value = 0;
         if (value !== undefined)
-            reflectionMergePartial<SensorDataRequest>(this, message, value);
+            reflectionMergePartial<EnergyDataRequest>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: SensorDataRequest): SensorDataRequest {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: EnergyDataRequest): EnergyDataRequest {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
@@ -328,11 +388,17 @@ class SensorDataRequest$Type extends MessageType<SensorDataRequest> {
                 case /* string access_token */ 1:
                     message.accessToken = reader.string();
                     break;
-                case /* energyleaf.SensorType type */ 2:
-                    message.type = reader.int32();
+                case /* double value */ 2:
+                    message.value = reader.double();
                     break;
-                case /* float value */ 3:
-                    message.value = reader.float();
+                case /* optional double value_current */ 4:
+                    message.valueCurrent = reader.double();
+                    break;
+                case /* optional double value_out */ 5:
+                    message.valueOut = reader.double();
+                    break;
+                case /* optional string timestamp */ 6:
+                    message.timestamp = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -345,16 +411,22 @@ class SensorDataRequest$Type extends MessageType<SensorDataRequest> {
         }
         return message;
     }
-    internalBinaryWrite(message: SensorDataRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+    internalBinaryWrite(message: EnergyDataRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* string access_token = 1; */
         if (message.accessToken !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.accessToken);
-        /* energyleaf.SensorType type = 2; */
-        if (message.type !== 0)
-            writer.tag(2, WireType.Varint).int32(message.type);
-        /* float value = 3; */
+        /* double value = 2; */
         if (message.value !== 0)
-            writer.tag(3, WireType.Bit32).float(message.value);
+            writer.tag(2, WireType.Bit64).double(message.value);
+        /* optional double value_current = 4; */
+        if (message.valueCurrent !== undefined)
+            writer.tag(4, WireType.Bit64).double(message.valueCurrent);
+        /* optional double value_out = 5; */
+        if (message.valueOut !== undefined)
+            writer.tag(5, WireType.Bit64).double(message.valueOut);
+        /* optional string timestamp = 6; */
+        if (message.timestamp !== undefined)
+            writer.tag(6, WireType.LengthDelimited).string(message.timestamp);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -362,9 +434,187 @@ class SensorDataRequest$Type extends MessageType<SensorDataRequest> {
     }
 }
 /**
- * @generated MessageType for protobuf message energyleaf.SensorDataRequest
+ * @generated MessageType for protobuf message energyleaf.EnergyDataRequest
  */
-export const SensorDataRequest = new SensorDataRequest$Type();
+export const EnergyDataRequest = new EnergyDataRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GasDataRequest$Type extends MessageType<GasDataRequest> {
+    constructor() {
+        super("energyleaf.GasDataRequest", [
+            { no: 1, name: "access_token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "value", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 3, name: "value_current", kind: "scalar", opt: true, T: 1 /*ScalarType.DOUBLE*/ }
+        ]);
+    }
+    create(value?: PartialMessage<GasDataRequest>): GasDataRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.accessToken = "";
+        message.value = 0;
+        if (value !== undefined)
+            reflectionMergePartial<GasDataRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GasDataRequest): GasDataRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string access_token */ 1:
+                    message.accessToken = reader.string();
+                    break;
+                case /* double value */ 2:
+                    message.value = reader.double();
+                    break;
+                case /* optional double value_current */ 3:
+                    message.valueCurrent = reader.double();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GasDataRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string access_token = 1; */
+        if (message.accessToken !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.accessToken);
+        /* double value = 2; */
+        if (message.value !== 0)
+            writer.tag(2, WireType.Bit64).double(message.value);
+        /* optional double value_current = 3; */
+        if (message.valueCurrent !== undefined)
+            writer.tag(3, WireType.Bit64).double(message.valueCurrent);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message energyleaf.GasDataRequest
+ */
+export const GasDataRequest = new GasDataRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class WaterDataRequest$Type extends MessageType<WaterDataRequest> {
+    constructor() {
+        super("energyleaf.WaterDataRequest", [
+            { no: 1, name: "access_token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "value", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 3, name: "value_current", kind: "scalar", opt: true, T: 1 /*ScalarType.DOUBLE*/ }
+        ]);
+    }
+    create(value?: PartialMessage<WaterDataRequest>): WaterDataRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.accessToken = "";
+        message.value = 0;
+        if (value !== undefined)
+            reflectionMergePartial<WaterDataRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: WaterDataRequest): WaterDataRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string access_token */ 1:
+                    message.accessToken = reader.string();
+                    break;
+                case /* double value */ 2:
+                    message.value = reader.double();
+                    break;
+                case /* optional double value_current */ 3:
+                    message.valueCurrent = reader.double();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: WaterDataRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string access_token = 1; */
+        if (message.accessToken !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.accessToken);
+        /* double value = 2; */
+        if (message.value !== 0)
+            writer.tag(2, WireType.Bit64).double(message.value);
+        /* optional double value_current = 3; */
+        if (message.valueCurrent !== undefined)
+            writer.tag(3, WireType.Bit64).double(message.valueCurrent);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message energyleaf.WaterDataRequest
+ */
+export const WaterDataRequest = new WaterDataRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class SensorDataResponse$Type extends MessageType<SensorDataResponse> {
+    constructor() {
+        super("energyleaf.SensorDataResponse", [
+            { no: 1, name: "status", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
+            { no: 2, name: "status_message", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<SensorDataResponse>): SensorDataResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.status = 0;
+        if (value !== undefined)
+            reflectionMergePartial<SensorDataResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: SensorDataResponse): SensorDataResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* uint32 status */ 1:
+                    message.status = reader.uint32();
+                    break;
+                case /* optional string status_message */ 2:
+                    message.statusMessage = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: SensorDataResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* uint32 status = 1; */
+        if (message.status !== 0)
+            writer.tag(1, WireType.Varint).uint32(message.status);
+        /* optional string status_message = 2; */
+        if (message.statusMessage !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.statusMessage);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message energyleaf.SensorDataResponse
+ */
+export const SensorDataResponse = new SensorDataResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SensorDataRequestV2$Type extends MessageType<SensorDataRequestV2> {
     constructor() {
@@ -449,60 +699,6 @@ class SensorDataRequestV2$Type extends MessageType<SensorDataRequestV2> {
  * @generated MessageType for protobuf message energyleaf.SensorDataRequestV2
  */
 export const SensorDataRequestV2 = new SensorDataRequestV2$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class SensorDataResponse$Type extends MessageType<SensorDataResponse> {
-    constructor() {
-        super("energyleaf.SensorDataResponse", [
-            { no: 1, name: "status", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
-            { no: 2, name: "status_message", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-    create(value?: PartialMessage<SensorDataResponse>): SensorDataResponse {
-        const message = globalThis.Object.create((this.messagePrototype!));
-        message.status = 0;
-        if (value !== undefined)
-            reflectionMergePartial<SensorDataResponse>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: SensorDataResponse): SensorDataResponse {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* uint32 status */ 1:
-                    message.status = reader.uint32();
-                    break;
-                case /* optional string status_message */ 2:
-                    message.statusMessage = reader.string();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: SensorDataResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* uint32 status = 1; */
-        if (message.status !== 0)
-            writer.tag(1, WireType.Varint).uint32(message.status);
-        /* optional string status_message = 2; */
-        if (message.statusMessage !== undefined)
-            writer.tag(2, WireType.LengthDelimited).string(message.statusMessage);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message energyleaf.SensorDataResponse
- */
-export const SensorDataResponse = new SensorDataResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ScriptAcceptedRequest$Type extends MessageType<ScriptAcceptedRequest> {
     constructor() {
